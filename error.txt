@@ -1,1 +1,0 @@
-Inference Error: Error: Unexpected observation shape (1, 45) for Box environment, please use (87,) or (n_env, 87) for the observation shape.
