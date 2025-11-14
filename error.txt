@@ -1,0 +1,8 @@
+Starting submission...
+SubmissionError: Failed to submit. Details: HTTP error occurred: 400 Client Error: Bad Request for url: https://api.competesai.com/v1/submissions - Server response:
+{
+  "error": {
+    "code": "BAD_REQUEST",
+    "message": "You have reached the daily submission limit of 10 for this competition."
+  }
+}
