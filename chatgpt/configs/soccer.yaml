@@ -1,0 +1,57 @@
+# configs/soccer.yaml
+# DreamerV3 config tuned for SAI Booster Soccer Showdown (3-task random training)
+
+task: "SAISoccer-v0"
+envs: 1
+seed: 0
+logdir: "./logdir/soccer"
+
+# ====== Training ======
+steps: 20000000          # 2000萬步（可改 5e6 測試用）
+eval_every: 50000
+train_every: 16
+train_ratio: 64          # DreamerV3 預設 16，增加 sample efficiency
+prefill: 5000
+
+# ====== Replay Buffer ======
+replay:
+  capacity: 400000       # 足夠三任務共享
+  minlen: 20
+  maxlen: 50
+  prioritized: True
+
+# ====== World Model ======
+world_model:
+  rssm_hidden: 1024
+  rssm_depth: 2
+  rssm_heads: 4
+  mlp_hidden: 1024
+  mlp_layers: 4
+  cnn_depth: 32
+  kl_scale: 1.0
+  horizon: 15            # imagination steps (default 5~10)
+
+# ====== Actor + Critic ======
+actor:
+  hidden_size: 1024
+  hidden_layers: 3
+
+critic:
+  hidden_size: 1024
+  hidden_layers: 3
+
+# ====== Optimization ======
+opt:
+  lr: 3e-4
+  eps: 1e-5
+  weight_decay: 0.0
+
+# ====== Exploration ======
+expl:
+  type: "normal"
+  std: 0.4               # 增加 exploration
+
+# ====== Misc ======
+device: "auto"
+precision: 16
+jit: True
