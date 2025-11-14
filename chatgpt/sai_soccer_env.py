@@ -72,3 +72,49 @@ class SAISoccerEnv(gym.Env):
             self.env.close()
         except Exception:
             pass
+
+import numpy as np
+from gymnasium import spaces
+
+class SoccerMultiTaskEnv:
+    """
+    Multi-task environment wrapper.
+    每次 reset 隨機選擇三個任務之一：
+    0 = Penalty Kick with Goalie
+    1 = Kick to Target
+    2 = Precision Pass
+    """
+    def __init__(self):
+        from sai_rl import SAIClient
+        
+        self.sai = SAIClient(comp_id="booster-soccer-showdown", api_key="你的APIKEY")
+        
+        # 建立三個單任務環境
+        self.envs = [
+            self.sai.make_env("LowerT1PenaltyKickWithGoalie-v0"),
+            self.sai.make_env("LowerT1KickToTarget-v0"),
+            self.sai.make_env("LowerT1PrecisionPass-v0")
+        ]
+        self.current_env = None
+        self.action_space = self.envs[0].action_space
+        self.observation_space = self.envs[0].observation_space
+
+    def reset(self):
+        # 隨機選擇任務
+        task_index = np.random.randint(0, len(self.envs))
+        self.current_env = self.envs[task_index]
+        obs, info = self.current_env.reset()
+        info["task_index"] = np.array([task_index])
+        return obs, info
+
+    def step(self, action):
+        obs, reward, terminated, truncated, info = self.current_env.step(action)
+        return obs, reward, terminated, truncated, info
+
+    def render(self):
+        return self.current_env.render()
+
+    def close(self):
+        for env in self.envs:
+            env.close()
+
