@@ -1,8 +1,1 @@
-Starting submission...
-SubmissionError: Failed to submit. Details: HTTP error occurred: 400 Client Error: Bad Request for url: https://api.competesai.com/v1/submissions - Server response:
-{
-  "error": {
-    "code": "BAD_REQUEST",
-    "message": "You have reached the daily submission limit of 10 for this competition."
-  }
-}
+Inference Error: Error: Unexpected observation shape (1, 45) for Box environment, please use (87,) or (n_env, 87) for the observation shape.
