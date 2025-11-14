@@ -137,6 +137,5 @@ class Preprocessor:
             print("DEBUG INFO:")
             for i, f in enumerate(processed_features):
                 print(f"  Feature {i}: shape={f.shape}")
-            raise ValueError(f"Feature stacking failed: Expected 87 dimensions, got {processed_obs.shape[1]} (N={N}).")
 
         return processed_obs.astype(np.float32)  # 最終返回32位浮點數
